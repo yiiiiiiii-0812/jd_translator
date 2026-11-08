@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8fafc">
+<meta name="description" content="JD 翻译官：把招聘 JD 拆成岗位任务、关键能力、术语解释和针对性面试题。规则分析，全程本地运行。">
+<title>JD 翻译官 · 把岗位要求翻译成人话</title>
+<style>
+:root{
+  --ink:#172238; --text:#273148; --muted:#68768e; --faint:#8b96a7;--line:#e5eaf1;
+  --primary:#5046da;--primary-dark:#362dc7; --light:#f3f2ff;--bg:#f8fafc;--paper:#fff;--green:#237c61;
+  --shadow:0 12px 32px rgba(29,43,79,.045);--radius:19px;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei", "PingFang SC",sans-serif;color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}button,input,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}button:focus-visible,input:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid #b7b3ff;outline-offset:3px}a{color:inherit}.wrap{width:min(1360px,calc(100% - 64px));margin:0 auto}.topbar{height:74px;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40;backdrop-filter:blur(16px)}.topbar-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:18px;letter-spacing:-.75px;text-decoration:none}.brand-mark{width:39px;height:39px;border-radius:12px;background:#5046da;color:white;display:grid;place-items:center;box-shadow:0 5px 14px rgba(80,70,218,.22)}.brand-mark svg{width:24px;height:24px}.brand em{font-style:normal;font-size:11px;font-weight:800;letter-spacing:1.7px;color:#717d93;background:#f0f2f6;border:1px solid #e4e7ed;border-radius:5px;padding:2px 6px;margin-left:4px}.topbar-actions{display:flex;align-items:center;gap:12px}.privacy-pill{color:#4f6779;background:#f2f7f5;border:1px solid #dcece5;border-radius:30px;padding:8px 12px;font-size:12px;display:flex;align-items:center;gap:7px}.green-dot{display:inline-block;background:#39b78b;width:7px;height:7px;border-radius:50%}.ghost-link{border:none;background:transparent;color:#4c5971;padding:8px 7px;font-weight:600}.ghost-link:hover{color:var(--primary)}
+.hero{padding:49px 0 29px;display:flex;align-items:end;justify-content:space-between;gap:20px}.eyebrow{color:var(--primary);letter-spacing:2px;text-transform:uppercase;font-size:11px;font-weight:850;display:flex;align-items:center;gap:8px;margin-bottom:14px}.eyebrow::before{content:"";width:22px;height:2px;background:currentColor;display:block}.hero h1{font-size:clamp(29px,3.45vw,46px);line-height:1.22;letter-spacing:-1.9px;margin:0 0 13px;font-weight:870}.hero h1 span{color:var(--primary)}.hero p{margin:0;color:var(--muted);font-size:15px;max-width:680px}.hero-right{display:flex;align-items:center;gap:11px;padding-bottom:8px}.hero-chip{border:1px solid #e2e6ef;background:#fff;color:#68768c;border-radius:999px;padding:8px 12px;font-size:12px;white-space:nowrap;display:flex;align-items:center;gap:6px}.hero-chip svg{width:15px;height:15px;color:#8078dc}
+.workspace{display:grid;grid-template-columns:minmax(315px,430px) minmax(0,1fr);gap:24px;align-items:start;padding-bottom:40px}.left-panel{position:sticky;top:91px}.panel,.result-shell{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.panel{padding:25px}.panel-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:19px}.section-heading{font-size:17px;letter-spacing:-.4px;margin:0;font-weight:800;display:flex;align-items:center;gap:9px}.section-heading .step{display:grid;place-items:center;width:26px;height:26px;background:var(--light);color:var(--primary);border-radius:8px;font-size:12px}.small-quiet{font-size:12px;color:var(--faint)}.field-label{font-size:13px;font-weight:780;display:flex;justify-content:space-between;margin:0 0 10px;color:#28334b}.field-label span:last-child{color:var(--faint);font-weight:500}.input-textarea{display:block;width:100%;border:1px solid #dce2ed;background:#fcfdff;border-radius:12px;resize:vertical;min-height:225px;max-height:460px;padding:16px;color:var(--text);line-height:1.7;font-size:13px;transition:border .2s,box-shadow .2s}.input-textarea::placeholder{color:#9aa6ba}.input-textarea:focus{outline:none;border-color:#968ef0;box-shadow:0 0 0 3px #f0efff}.input-textarea.compact{min-height:112px;max-height:240px}.field-foot{display:flex;align-items:center;justify-content:space-between;color:var(--faint);font-size:11px;margin-top:10px;gap:6px}.text-button{background:none;border:none;color:var(--primary);font-weight:720;padding:0}.text-button:hover{text-decoration:underline}.examples{margin-top:19px}.small-title{font-size:11px;color:#8a96aa;font-weight:850;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}.samples{display:flex;flex-wrap:wrap;gap:8px}.sample-btn{font-size:12px;border:1px solid #e2e6f1;background:#fff;border-radius:9px;padding:7px 10px;color:#445168;font-weight:650;transition:.2s}.sample-btn:hover{background:#f4f3ff;border-color:#c8c4f7;color:var(--primary)}.sample-btn.active{color:#493ecc;background:#efeeff;border-color:#d2ceff}.subtle-line{height:1px;background:var(--line);margin:22px 0 19px}.disclosure{display:flex;align-items:center;justify-content:space-between;padding:0;border:0;background:none;width:100%;color:#33425a;font-weight:750;text-align:left}.disclosure small{font-size:11px;color:#8995ab;font-weight:500;margin-left:8px}.disclosure svg{transition:transform .2s}.disclosure[aria-expanded="true"] svg{transform:rotate(180deg)}.resume-wrap{display:none;margin-top:13px}.resume-wrap.open{display:block}.resume-note{margin-top:9px;font-size:11px;color:var(--muted)}.action-btn{width:100%;margin-top:22px;display:flex;justify-content:center;align-items:center;gap:9px;border:none;background:var(--primary);color:white;border-radius:12px;padding:14px 18px;font-size:14px;font-weight:800;box-shadow:0 6px 18px rgba(80,70,218,.16);transition:transform .15s,background .15s}.action-btn:hover{background:var(--primary-dark);transform:translateY(-1px)}.local-note{text-align:center;font-size:11px;color:#8b96a6;margin:11px 4px 0}.local-note b{color:#4c6173}.inline-error{color:#a4453e;background:#fff2ef;border:1px solid #f5d5d1;border-radius:10px;padding:10px 12px;font-size:12px;display:none;margin:12px 0 0}.inline-error.visible{display:block}.subtle-actions{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:14px}.under-link{background:none;border:0;color:#7d879b;font-size:11px;padding:4px}.under-link:hover{color:#cf5556}.save-pref{color:#8e9baa;font-size:11px;display:flex;align-items:center;gap:5px}.save-pref input{accent-color:var(--primary)}.help-banner{margin-top:15px;background:#f0f3fc;border:1px solid #e5eafa;color:#50627d;font-size:11px;padding:12px 14px;border-radius:12px;line-height:1.65}
+.result-shell{min-height:560px;overflow:hidden}.empty{height:558px;display:flex;align-items:center;flex-direction:column;justify-content:center;text-align:center;padding:30px}.empty-graphic{width:228px;height:175px;position:relative;margin:0 0 15px}.empty-sheet{background:white;border:1px solid #dbe1f0;border-radius:15px;box-shadow:0 13px 26px rgba(39,53,102,.09);width:143px;height:144px;position:absolute;top:14px;left:36px;transform:rotate(-8deg);padding:19px}.empty-sheet.second{top:20px;left:68px;transform:rotate(9deg);background:#f4f4ff;padding:24px;z-index:1}.empty-line{height:7px;background:#e1e5f0;border-radius:4px;margin-bottom:9px}.empty-line.small{width:54%}.empty-line.mid{width:78%}.empty-sticker{position:absolute;z-index:3;background:#fff;border:1px solid #deddf9;color:var(--primary);border-radius:12px;right:1px;bottom:10px;padding:13px 16px;font-size:23px;box-shadow:0 13px 22px #5d53c821}.empty h2{font-size:22px;letter-spacing:-.7px;margin:0 0 8px}.empty p{max-width:350px;color:var(--muted);font-size:13px;margin:0}.empty-steps{display:flex;align-items:center;gap:12px;margin-top:26px;color:#8791a5;font-size:12px}.empty-steps .sep{color:#ccd1df}.empty-steps b{font-weight:650;color:#5b6580}.report{display:none}.report.active{display:block}.report-head{padding:25px 27px 21px;border-bottom:1px solid var(--line)}.report-topline{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}.report-tag{font-size:11px;letter-spacing:.4px;font-weight:800;color:#5e58cf;background:#f1f0ff;border-radius:7px;padding:5px 9px}.report-actions{display:flex;gap:6px;flex-wrap:wrap}.outline-btn{background:#fff;color:#495875;border:1px solid #e1e5ed;border-radius:9px;padding:7px 10px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px}.outline-btn:hover{background:#f5f6ff;color:var(--primary);border-color:#c8c8f4}.report-head h2{font-size:22px;letter-spacing:-.65px;margin:0 0 6px;line-height:1.3}.report-sub{margin:0;font-size:12px;color:#8390a5}.overview{margin-top:18px;background:#f8f9ff;border:1px solid #ececff;border-radius:13px;padding:15px 16px;display:flex;align-items:start;gap:12px}.overview-icon{width:28px;height:28px;border-radius:8px;background:#e7e5ff;display:grid;place-items:center;flex-shrink:0;color:var(--primary);font-size:17px}.overview strong{display:block;font-size:13px;color:#293353;margin-bottom:5px}.overview p{color:#5e6b85;font-size:12px;line-height:1.8;margin:0}.stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px}.stat{display:flex;align-items:baseline;gap:6px;color:#7a879b;font-size:12px}.stat strong{font-weight:860;font-size:20px;color:#2f3a52;font-variant-numeric:tabular-nums}.report-tabs{display:flex;gap:19px;padding:0 27px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}.report-tabs::-webkit-scrollbar{display:none}.report-tab{white-space:nowrap;border:0;border-bottom:2px solid transparent;padding:14px 0 12px;background:transparent;color:#8a95a7;font-size:13px;font-weight:750}.report-tab[aria-selected="true"]{border-color:var(--primary);color:var(--primary)}.report-view{padding:24px 27px 30px;display:none}.report-view.active{display:block}.block-title{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;gap:12px}.block-title h3{font-size:15px;letter-spacing:-.25px;margin:0}.block-title p{font-size:11px;color:#929dae;margin:0}.skills-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.skill-card{border:1px solid #e7eaf0;background:#fff;border-radius:13px;padding:14px 15px;transition:box-shadow .15s}.skill-card:hover{box-shadow:0 7px 18px #313d6910}.skill-top{display:flex;align-items:center;gap:9px;margin-bottom:9px}.skill-icon{width:28px;height:28px;background:#f0efff;color:var(--primary);display:grid;place-items:center;border-radius:9px;font-size:14px}.skill-top strong{font-size:13px}.skill-count{margin-left:auto;font-size:10px;color:#8b96aa}.skill-card p{font-size:12px;color:#5d6b82;line-height:1.75;margin:0 0 8px}.evidence{background:#f7f9fc;border-left:2px solid #b8baf6;padding:8px 10px;border-radius:0 8px 8px 0;font-size:11px;color:#69758a;margin-top:9px;line-height:1.6;word-wrap:break-word}.evidence .source-caption{display:block;font-weight:780;color:#7b7caf;font-size:10px;margin-bottom:4px}.evidence em{font-style:normal;color:#4e5894;font-weight:700}.none-found{padding:16px;border:1px dashed #dee4ee;border-radius:10px;color:#8290a5;font-size:12px;background:#fcfdff}.tasks{display:flex;flex-direction:column;gap:9px}.task-item{border:1px solid #e6eaf0;border-radius:12px;padding:13px 15px;display:grid;grid-template-columns:27px minmax(0,1fr);gap:12px}.task-no{height:27px;width:27px;border-radius:9px;background:#f0efff;color:#5c53df;display:grid;place-items:center;font-size:11px;font-weight:900}.task-item strong{font-size:12px;color:#2c3850}.task-item p{font-size:12px;color:#596983;margin:5px 0 4px}.task-original{font-size:11px;color:#9aa5b2;padding-top:4px;border-top:1px dashed #edf0f4;margin-top:6px}.block-divider{height:1px;background:var(--line);margin:24px 0}.vocab-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.vocab{background:#fafbfe;border:1px solid #eef0f5;border-radius:10px;padding:11px 13px}.vocab strong{display:block;font-size:12px;color:#3b3f72;margin-bottom:3px}.vocab p{margin:0;font-size:11px;color:#68758e}.question{border:1px solid #e6eaf0;border-radius:13px;margin-bottom:11px;overflow:hidden}.question-top{display:flex;align-items:start;padding:14px;gap:10px}.q-number{background:#edeafa;color:#5750c6;font-weight:900;font-size:11px;border-radius:7px;width:24px;height:24px;display:grid;place-items:center;flex-shrink:0}.question-txt{flex:1;min-width:0}.question-txt strong{display:block;font-size:13px;line-height:1.6}.question-txt small{display:block;font-size:11px;color:#9aa4b3;margin-top:4px}.mini-btn{border:none;background:#f2f1ff;color:#5b53cd;border-radius:7px;font-size:11px;font-weight:800;padding:6px 8px;white-space:nowrap}.mini-btn.selected{background:#e8f4ef;color:var(--green)}.question-detail{padding:10px 14px 13px;border-top:1px solid #edf0f4;background:#fcfdff;font-size:12px;color:#617089;line-height:1.8;display:flex;gap:8px}.question-detail b{color:#46546e;white-space:nowrap}.todo-list{border:1px solid var(--line);border-radius:13px;overflow:hidden}.todo{display:flex;align-items:center;gap:11px;padding:13px 14px;border-bottom:1px solid #eef0f5;color:#4b5973;font-size:12px}.todo:last-child{border-bottom:none}.todo input{accent-color:var(--primary);width:15px;height:15px}.todo.checked span{text-decoration:line-through;color:#a4adbc}.todo-footer{font-size:11px;color:#8290a4;margin-top:10px}.match-summary{padding:15px 17px;background:#f6f8fd;border-radius:12px;border:1px solid #e6ebf5;margin-bottom:18px}.match-summary strong{display:block;font-size:14px;margin-bottom:5px}.match-summary p{font-size:12px;color:#67758c;line-height:1.8;margin:0}.match-card{padding:14px 15px;border:1px solid #e6eaf0;border-radius:11px;margin-bottom:9px}.match-card h4{font-size:13px;margin:0 0 5px}.match-card p{font-size:12px;color:#64738c;margin:0}.match-example{background:#f6f8fc;border-radius:8px;margin-top:10px;padding:9px 11px;color:#506079;font-size:11px}.match-empty{background:#f7f8fc;padding:28px;text-align:center;border-radius:12px;color:#65738c;font-size:12px}.match-empty h3{margin:0 0 8px;color:#344158}.match-empty button{margin-top:13px}
+mark{background:#fff2b3;color:inherit;border-radius:2px;padding:0 1px}.footer{padding:9px 0 28px;display:flex;justify-content:space-between;align-items:center;color:#a0a9b8;font-size:11px;gap:10px}.footer b{color:#79869b}.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,25px);background:#26324a;color:white;border-radius:11px;padding:12px 20px;box-shadow:0 12px 28px #19223b35;font-size:12px;opacity:0;pointer-events:none;transition:all .2s;z-index:99}.toast.show{opacity:1;transform:translate(-50%,0)}dialog{border:1px solid #e3e6f0;border-radius:18px;padding:0;box-shadow:0 24px 70px #17223835;width:min(460px,calc(100% - 34px));color:var(--ink)}dialog::backdrop{background:#1b25466f;backdrop-filter:blur(3px)}.dialog-inner{padding:27px}.dialog-inner h2{font-size:19px;letter-spacing:-.3px;margin:0 0 12px}.dialog-inner p{font-size:13px;color:#63718a;line-height:1.85}.dialog-inner ul{font-size:12px;color:#54647b;line-height:1.9;padding-left:20px}.dialog-buttons{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}.dialog-buttons button{border-radius:9px;border:1px solid #e2e6ed;background:#fff;color:#53637a;font-weight:750;padding:9px 13px}.dialog-buttons button.confirm{background:#5147dc;color:white;border:none}.mobile-note{display:none}
+@media(max-width:1100px){.wrap{width:min(100% - 36px,1150px)}.workspace{grid-template-columns:minmax(300px,375px) minmax(0,1fr);gap:15px}.panel{padding:19px}.skills-grid{grid-template-columns:1fr}.hero{padding-top:34px}.hero-right{display:none}}
+@media(max-width:840px){.workspace{grid-template-columns:1fr}.left-panel{position:static}.panel{padding:20px}.input-textarea{min-height:165px}.result-shell{min-height:480px}.hero{padding-top:25px}.empty{height:420px}.report-view{padding:20px}.mobile-note{display:inline;color:#98a4b2}}
+@media(max-width:600px){.wrap{width:calc(100% - 26px)}.topbar{height:63px}.brand{font-size:16px}.brand-mark{height:34px;width:34px;border-radius:10px}.brand em{display:none}.privacy-pill{font-size:0;padding:9px}.green-dot{width:8px;height:8px}.topbar-actions{gap:6px}.ghost-link{font-size:12px}.hero{padding:25px 0 21px}.hero h1{font-size:31px;letter-spacing:-1.1px}.hero p{font-size:13px}.panel{padding:18px}.report-head{padding:18px}.report-head h2{font-size:20px}.report-tabs{padding:0 18px;gap:18px}.report-view{padding:18px}.skills-grid,.vocab-grid{grid-template-columns:1fr}.report-topline{align-items:start}.report-actions{justify-content:flex-end}.report-actions .outline-btn{font-size:11px;padding:6px}.stats{gap:10px}.empty-steps{gap:5px;font-size:10px}.footer{display:block}.footer span{display:block;margin-top:3px}}
+@media print{.topbar,.hero,.left-panel,.footer,.report-actions,.report-tabs,.outline-btn,.sample-btn,.action-btn{display:none!important}.wrap{width:100%}.workspace{display:block}.result-shell{box-shadow:none;border:0}.report-view{display:block!important}.report-head{padding:0 0 10px}.question,.skill-card,.task-item{break-inside:avoid}body{background:white}}
+
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top" aria-label="JD 翻译官，返回页面顶部">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5.5h6m-3-3v3m4.5 0c-.8 4.2-3.1 6.5-6.7 8.5m-.7-5c1.3 2.3 3 3.9 5.4 5.2"/><path d="m13 20 4.4-11 4.4 11m-7-3h5.8"/></svg></span>
+      <span>JD 翻译官 <em>DECODE</em></span>
+    </a>
+    <div class="topbar-actions">
+      <div class="privacy-pill" title="所有分析在你的浏览器完成，不需要登录、联网或调用大模型"><span class="green-dot"></span> 本地处理 · 无需 API</div>
+      <button id="howBtn" type="button" class="ghost-link">使用说明</button>
+    </div>
+  </div>
+</header>
+<main class="wrap" id="top">
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Career clarity studio / 01</div>
+      <h1>招聘要求看不懂？<br><span>翻译成你能准备的事。</span></h1>
+      <p>一份 JD，看清岗位每天做什么、真正重视哪些能力，以及面试应该讲哪个案例。</p>
+    </div>
+    <div class="hero-right" aria-hidden="true"><span class="hero-chip">✦ 具体职责</span><span class="hero-chip">◎ 能力线索</span><span class="hero-chip">▤ 面试清单</span></div>
+  </section>
+  <section class="workspace" aria-label="JD 解读工作台">
+    <div class="left-panel">
+      <div class="panel">
+        <div class="panel-top">
+          <h2 class="section-heading"><span class="step">01</span> 把岗位 JD 放进来</h2>
+          <span class="small-quiet">支持中文 / 英文术语</span>
+        </div>
+        <label class="field-label" for="jdInput">招聘信息 <span id="charCount">0 字</span></label>
+        <textarea id="jdInput" class="input-textarea" spellcheck="false" placeholder="粘贴岗位职责和任职要求即可。\n\n例如：\n岗位职责：\n1. 参与客户 AI 营销方案设计与项目推进……\n\n任职要求：\n1. 熟悉 AIGC、Prompt 和 Workflow……"></textarea>
+        <div class="field-foot">
+          <span>建议包含「岗位职责」与「任职要求」</span>
+          <span><button type="button" id="uploadJD" class="text-button">↑ 导入 TXT / MD</button><input type="file" id="jdFile" accept=".txt,.md,text/plain,text/markdown" hidden></span>
+        </div>
+        <div class="examples">
+          <div class="small-title">没有 JD？先体验一个示例</div>
+          <div class="samples" role="group" aria-label="示例 JD">
+            <button type="button" class="sample-btn" data-sample="marketing">✦ AI 营销方案</button>
+            <button type="button" class="sample-btn" data-sample="pm">▥ 项目管理</button>
+            <button type="button" class="sample-btn" data-sample="operations">◈ 产品运营</button>
+          </div>
+        </div>
+        <div class="subtle-line"></div>
+        <button type="button" id="resumeToggle" class="disclosure" aria-controls="resumeWrap" aria-expanded="false">
+          <span>添加我的经历 <small>可选 · 用来寻找可讲案例</small></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div id="resumeWrap" class="resume-wrap">
+          <label class="field-label" for="resumeInput" style="margin-top:14px">经历关键词或简历要点 <span id="resumeCount">0 字</span></label>
+          <textarea id="resumeInput" class="input-textarea compact" placeholder="建议每行一段真实经历。例如：\n负责跨部门协调和项目验收，推动需求按期交付。\n使用 SQL 分析数据，优化产品运营漏斗。"></textarea>
+          <div class="field-foot"><span>只做关键词关联，不生成不存在的经历</span><button type="button" id="uploadResume" class="text-button">↑ 导入 TXT / MD</button><input type="file" id="resumeFile" accept=".txt,.md,text/plain,text/markdown" hidden></div>
+          <div class="resume-note">不必上传个人信息、联系方式或完整简历。粘贴 3–5 条工作成果更合适。</div>
+        </div>
+        <div id="inlineError" class="inline-error" role="alert"></div>
+        <button id="analyzeBtn" type="button" class="action-btn"><span>开始拆解这份 JD</span><span aria-hidden="true">↗</span></button>
+        <div class="local-note"><b>没有大模型调用。</b>基于可检查的关键词和原文句子分析，不编造岗位要求。</div>
+        <div class="subtle-actions">
+          <label class="save-pref" title="在当前浏览器保存最近一份输入，不上传到网络"><input id="saveLocally" type="checkbox" checked> 保留在本机浏览器</label>
+          <button id="clearBtn" class="under-link" type="button">清空本机内容</button>
+        </div>
+      </div>
+      <div class="help-banner">◉ <strong>项目说明：</strong>这是一个由 AI 辅助开发的本地规则版工具。判断依据均可回看 JD 原句，适合做初步梳理，但不能替代人工判断或真实模型的语义分析。</div>
+    </div>
+    <div class="result-shell" aria-live="polite">
+      <div id="emptyState" class="empty">
+        <div class="empty-graphic" aria-hidden="true"><div class="empty-sheet"><div class="empty-line"></div><div class="empty-line mid"></div><div class="empty-line"></div><div class="empty-line small"></div><div class="empty-line mid"></div></div><div class="empty-sheet second"><div class="empty-line"></div><div class="empty-line mid"></div><div class="empty-line small"></div><div class="empty-line"></div></div><div class="empty-sticker">✦</div></div>
+        <h2>给岗位说明书加一份「人话说明」</h2>
+        <p>左边粘贴 JD，或点击示例。这里会出现任务拆解、能力证据和面试准备清单。</p>
+        <div class="empty-steps"><b>01 粘贴 JD</b><span class="sep">→</span><b>02 拆解能力</b><span class="sep">→</span><b>03 准备面试</b></div>
+      </div>
+      <div id="report" class="report">
+        <div class="report-head">
+          <div class="report-topline"><span class="report-tag">JD 解读结果 · 规则版</span><div class="report-actions"><button type="button" class="outline-btn" id="copyBtn">⧉ 复制备忘录</button><button type="button" class="outline-btn" id="downloadBtn">↓ 导出 Markdown</button></div></div>
+          <h2 id="jobTitle">你的岗位画像</h2>
+          <p class="report-sub" id="reportSub">所有结论均来自你提交的 JD，建议结合岗位具体业务复核。</p>
+          <div class="overview"><span class="overview-icon" aria-hidden="true">✦</span><div><strong id="oneLineTitle">一句话岗位翻译</strong><p id="oneLine"></p></div></div>
+          <div class="stats" id="reportStats"></div>
+        </div>
+        <div class="report-tabs" role="tablist" aria-label="解读报告分类">
+          <button class="report-tab" type="button" role="tab" aria-selected="true" aria-controls="viewDecode" id="tabDecode" data-tab="decode">01 / 岗位拆解</button>
+          <button class="report-tab" type="button" role="tab" aria-selected="false" aria-controls="viewInterview" id="tabInterview" data-tab="interview">02 / 面试准备</button>
+          <button class="report-tab" type="button" role="tab" aria-selected="false" aria-controls="viewMatch" id="tabMatch" data-tab="match">03 / 我的经历</button>
+        </div>
+        <section class="report-view active" id="viewDecode" role="tabpanel" aria-labelledby="tabDecode">
+          <div class="block-title"><h3>招聘方看重的能力</h3><p>识别到的词句线索，不是胜任力评分</p></div>
+          <div id="skillsGrid" class="skills-grid"></div>
+          <div class="block-divider"></div>
+          <div class="block-title"><h3>这些职责，翻译成人话</h3><p>逐条对应 JD 原文</p></div>
+          <div id="tasks" class="tasks"></div>
+          <div class="block-divider"></div>
+          <div class="block-title"><h3>岗位黑话速查</h3><p>仅显示 JD 中提到的术语</p></div>
+          <div id="vocabGrid" class="vocab-grid"></div>
+        </section>
+        <section class="report-view" id="viewInterview" role="tabpanel" aria-labelledby="tabInterview">
+          <div class="block-title"><h3>面试官可能如何追问</h3><p>按识别到的能力生成准备方向</p></div>
+          <div id="questions"></div>
+          <div class="block-divider"></div>
+          <div class="block-title"><h3>我的面试准备清单</h3><p>打勾后本机保留</p></div>
+          <div id="todoList" class="todo-list"></div>
+          <div class="todo-footer" id="todoFooter"></div>
+        </section>
+        <section class="report-view" id="viewMatch" role="tabpanel" aria-labelledby="tabMatch">
+          <div class="block-title"><h3>把我的经历对上岗位要求</h3><p>展示词句重合，不能证明个人能力</p></div>
+          <div id="matchArea"></div>
+        </section>
+      </div>
+    </div>
+  </section>
+  <footer class="footer"><span><b>JD 翻译官</b> / 个人求职实验项目 · 不代表任何招聘企业观点</span><span>100% 浏览器本地规则分析 · 不调用第三方 API</span></footer>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<dialog id="helpDialog"><div class="dialog-inner"><h2>使用说明</h2><p>这是一款给求职者用的轻量工具：让岗位描述变成可操作的面试准备事项。所有解析在当前浏览器完成。</p><ul><li>粘贴真实 JD，或使用三种标明为「模拟」的示例。</li><li>切换「岗位拆解」「面试准备」「我的经历」查看不同成果。</li><li>添加自己真实做过的事，会得到与 JD 关键词有关的准备线索。</li><li>可以导出 Markdown 备忘录；不会向任何服务器上传 JD 或经历。</li><li>规则版不能准确识别所有语义和隐含要求，结果要人工核对。</li></ul><div class="dialog-buttons"><button id="closeHelp" type="button" class="confirm">知道了</button></div></div></dialog>
+<dialog id="clearDialog"><div class="dialog-inner"><h2>清空本机内容？</h2><p>将清空当前 JD、我的经历和准备清单，并删除本地缓存。此操作无法撤销。</p><div class="dialog-buttons"><button id="cancelClear" type="button">取消</button><button id="confirmClear" class="confirm" type="button">确认清空</button></div></div></dialog>
+<script>
+'use strict';
+/* JD Decode / Offline edition. No fetch, no external libraries, no API calls. */
+const STORAGE_KEY = 'jd-decode-local-v1';
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => [...document.querySelectorAll(selector)];
+
+const SAMPLES = {
+  marketing: {
+    name: 'AI 营销方案（模拟）',
+    jd: `岗位名称：AI 营销解决方案专员（模拟岗位）\n岗位职责：\n1. 参与品牌客户的 AI 营销需求沟通，理解客户目标，输出解决方案 Brief、演示方案与项目实施计划。\n2. 使用 AIGC 工具、Prompt、Agent 和 Workflow 自动化内容生产流程，协作完成营销创意与营销素材迭代。\n3. 开展消费者洞察、竞品研究和社交媒体内容分析，提出适合不同平台的传播策略。\n4. 协同客户、策划、设计、产品与研发团队，推动方案 POC、测试、验收与项目交付。\n5. 关注 CTR、CVR、ROI 等指标，复盘广告投放及营销活动效果，整理可复用案例。\n任职要求：\n1. 了解大模型、AIGC、生成式 AI 的应用场景，具备 Prompt 设计或简单工作流搭建实践。\n2. 具备方案表达、项目推进与跨团队沟通能力，能够向客户清晰讲解解决方案。\n3. 具备数据意识，能够使用 Excel 或 SQL 进行基础分析。\n4. 有内容运营、产品运营、品牌营销或项目管理经历者优先。\n5. 乐于学习，对用户需求与数字营销趋势保持敏感。`,
+  },
+  pm: {
+    name: '项目管理（模拟）',
+    jd: `岗位名称：研发项目管理专员（模拟岗位）\n岗位职责：\n1. 参与研发项目启动和需求澄清，拆解工作包，跟踪项目排期与里程碑。\n2. 组织跨部门例会，对接研发、测试、采购与供应商，识别依赖项及交付风险。\n3. 建立项目台账，追踪需求变更、问题闭环和资源协调情况。\n4. 跟进测试验证和阶段验收，形成项目报告、复盘和标准化 SOP。\n任职要求：\n1. 具备较强的沟通协作、问题分析和推动落地能力。\n2. 熟悉 Excel、项目计划、进度跟踪等常用工具。\n3. 能够识别项目风险并推进解决，有项目管理实习或供应商协作经验优先。\n4. 重视时间节点和交付质量，文档表达清晰。`,
+  },
+  operations: {
+    name: '产品运营（模拟）',
+    jd: `岗位名称：产品运营专员（模拟岗位）\n岗位职责：\n1. 基于用户调研、用户反馈和竞品分析，发现产品使用路径中的痛点。\n2. 围绕新功能上线制定内容运营及触达策略，联动产品、研发、设计完成版本验收。\n3. 建立数据看板，跟踪曝光、点击率、转化率、留存率等指标，并分析漏斗流失节点。\n4. 策划 A/B 测试，复盘活动效果，推动运营流程 SOP 和内容素材的持续优化。\n任职要求：\n1. 对互联网产品与用户体验敏感，逻辑清晰，能撰写需求文档和运营方案。\n2. 熟练使用 Excel，有 SQL 分析经验加分。\n3. 具备跨部门沟通能力，有用户增长、产品运营、活动运营实习经历优先。\n4. 执行力强，能够通过数据定位问题并推进改进。`,
+  },
+};
+
+const GROUPS = [
+  {
+    id:'ai',label:'AI 应用与自动化',icon:'✦',keywords:['AIGC','生成式 AI','生成式AI','大模型','AI 工具','AI营销','AI 营销','Prompt','提示词','Agent','智能体','Workflow','工作流','LLM','自动化','模型调优'],
+    what:'能把具体业务步骤拆开，选择合适的 AI 工具或流程，减少重复工作，而不只是“会聊天”。',
+    tasks:'把重复内容处理或执行步骤设计为可复用的 AI 工作流。',
+    question:'讲一个你用 AI 工具或自动化流程解决真实问题的案例。',
+    answer:'先讲原流程痛点与输入输出，再讲工具选择、步骤设计、人工检查点和实际效果；无法量化的结果不硬编。',
+    checklist:'准备一个 AI 应用案例，讲清输入、输出、规则及失败后的处理。',
+    interviewFocus:'AI 项目的目标、工作流设计、人工验收与质量边界',
+  },
+  {
+    id:'marketing',label:'营销与商业理解',icon:'◎',keywords:['品牌','营销','Campaign','广告','投放','营销活动','传播','商业','客户目标','Brief','数字营销','营销策略','媒体','媒介'],
+    what:'理解品牌或客户想达到的业务目标，把想法落成可执行的传播、投放或内容方案。',
+    tasks:'先明确传播目标与受众，再产出能执行、能复盘的营销方案。',
+    question:'如果客户给你一个模糊的品牌推广需求，你会怎样形成解决方案？',
+    answer:'按照目标—受众—洞察—传播策略—渠道/素材—指标的顺序拆解；区分假设与已证实信息。',
+    checklist:'准备一份简短的“目标—受众—策略—指标”营销方案示例。',
+    interviewFocus:'客户目标、传播策略、创意落地及商业价值',
+  },
+  {
+    id:'research',label:'用户洞察与需求分析',icon:'◉',keywords:['用户研究','用户调研','调研','竞品','消费者','洞察','用户画像','用户需求','需求分析','需求澄清','用户反馈','痛点','市场研究','市场调研','场景'],
+    what:'不是凭直觉猜用户需要什么，而是找到反馈或数据里的问题，整理成可验证的需求。',
+    tasks:'收集用户/客户信息，梳理核心问题，判断优先级并形成洞察或需求清单。',
+    question:'你怎么判断一个用户问题值得优先解决？',
+    answer:'说明信息来源、频次与影响、目标人群、业务价值，以及如何排除个别反馈的误导。',
+    checklist:'准备一个从用户反馈/竞品信息发现问题并提出建议的案例。',
+    interviewFocus:'洞察来源、需求优先级、验证方式与代表性限制',
+  },
+  {
+    id:'project',label:'项目推进与交付',icon:'▥',keywords:['项目管理','项目推进','项目交付','项目计划','排期','里程碑','进度','推进','交付','验收','测试验证','资源协调','供应商','风险','需求变更','闭环','台账','项目启动','阶段评审','跨部门例会','POC','试点'],
+    what:'把事情按阶段推进，知道谁负责什么、节点是什么、遇到阻塞如何协调并验证完成。',
+    tasks:'把目标分解成任务与里程碑，协调资源、跟踪问题、推动测试和验收。',
+    question:'项目节点紧张、资源冲突或需求临时变化时，你怎么处理？',
+    answer:'用一个真实例子说明风险发现、优先级判断、协调对象、推进动作与最终验证；不要把未做的排期说成自己制定。',
+    checklist:'准备一个跨团队交付案例，明确自己承担的职责边界。',
+    interviewFocus:'风险识别、问题闭环、跨部门协作与验收',
+  },
+  {
+    id:'data',label:'数据分析与效果复盘',icon:'↗',keywords:['数据分析','数据看板','指标','SQL','Excel','CTR','CVR','ROI','GMV','KPI','转化率','转化','漏斗','留存','点击率','曝光','数据意识','归因','复盘','A/B','AB测试','实验','成本','准确率','增长'],
+    what:'能定义要看的指标，比较变化、定位异常，并根据数据提出下一步优化。',
+    tasks:'建立指标或看板，读出数据里的问题，提出可验证的改进方案。',
+    question:'你是如何通过数据发现问题并判断改动有效的？',
+    answer:'讲清指标定义、计算口径、时间窗口、对照方式与结论边界；警惕把相关性说成因果性。',
+    checklist:'准备一组真实指标，写清分子分母、时间范围和结果解释。',
+    interviewFocus:'指标口径、分析路径、实验设计与效果归因',
+  },
+  {
+    id:'communication',label:'表达与跨团队协作',icon:'☷',keywords:['沟通','跨团队','跨部门','协同','协调','协作','汇报','方案表达','演示','宣讲','客户','沟通能力','文档','对接','讲解','需求沟通'],
+    what:'能把业务问题解释清楚，推动不同角色达成共识，而不仅是传递消息。',
+    tasks:'组织对齐信息、明确责任和下一步行动，确保讨论能够落地。',
+    question:'面对不同团队意见不一致，你如何推动达成一致？',
+    answer:'讲清分歧点、共同目标、事实依据、你的沟通动作和形成的行动项。',
+    checklist:'准备一个协调不同角色、让方案真正落地的案例。',
+    interviewFocus:'沟通结构、冲突协调、客户表达及闭环能力',
+  },
+  {
+    id:'content',label:'内容创意与制作',icon:'◇',keywords:['内容运营','内容策划','内容生产','营销素材','素材','创意','文案','短视频','脚本','图文','海报','拍摄','视觉','社交媒体','小红书','抖音','内容平台','剪辑'],
+    what:'根据受众和渠道确定内容形式，组织制作、修改版本并观察实际反馈。',
+    tasks:'把主题与受众转成脚本、素材或内容栏目，再进行迭代。',
+    question:'你会怎样从一个产品卖点设计出不同平台的内容创意？',
+    answer:'先说用户与平台差异，再讲内容角度、制作约束、审核、测试和复盘。',
+    checklist:'准备一个从洞察到创意内容再到结果复盘的案例。',
+    interviewFocus:'创意依据、平台适配、素材迭代和内容效果',
+  },
+  {
+    id:'product',label:'产品思维与迭代',icon:'▤',keywords:['产品运营','产品经理','产品需求','产品设计','PRD','产品','原型','上线','功能','需求文档','迭代','用户体验','产品策略','版本','验收','使用路径'],
+    what:'把发现的问题转成具体功能或流程改进，明确优先级、验收标准和上线效果。',
+    tasks:'定义需求、推动设计与研发实现，经过验收后根据反馈迭代。',
+    question:'举例说明你如何判断问题、提出产品改进并推动上线。',
+    answer:'依次讲发现问题的证据、方案取舍、跨角色协同、验收规则和结果。',
+    checklist:'准备一个需求从发现到上线验收的完整故事。',
+    interviewFocus:'用户价值、需求取舍、设计验证与迭代',
+  },
+];
+
+const GLOSSARY = [
+  ['Agent','任务型 AI 智能体：围绕目标调用工具、执行步骤并处理结果。'],
+  ['Workflow','工作流：按既定节点和规则连接一系列处理动作。'],
+  ['AIGC','人工智能生成内容，例如文本、图片、视频或语音。'],
+  ['Prompt','提示词：向生成式 AI 明确输入、约束、目标与输出格式。'],
+  ['Brief','需求简报：明确背景、目标、受众、交付物和限制条件。'],
+  ['POC','概念验证：先用小范围实验验证方案能否实现或产生价值。'],
+  ['CTR','点击率 = 点击次数 ÷ 展示次数，衡量素材吸引点击的能力。'],
+  ['CVR','转化率 = 转化次数 ÷ 对应转化入口的访问或点击数；需确认口径。'],
+  ['ROI','投资回报率：收益与投入的关系；计算公式必须按企业口径确认。'],
+  ['KPI','关键绩效指标：衡量具体业务目标完成情况的指标。'],
+  ['GMV','成交总额：通常是交易金额的汇总，不等同于实际营收。'],
+  ['PRD','产品需求文档：描述目标用户、功能需求、约束与验收规则。'],
+  ['SOP','标准作业流程：把重复工作固化为可执行、可检查的步骤。'],
+  ['SQL','结构化查询语言：用于查询、筛选、汇总数据。'],
+  ['A/B','A/B 测试：比较不同版本在可控条件下的指标表现。'],
+  ['A/B 测试','通过随机分组对比不同方案，尽量排除其他因素。'],
+  ['OKR','目标与关键结果：将目标和可验证的关键结果关联起来。'],
+  ['CPM','千次展示成本：广告每获得一千次展示的费用。'],
+  ['CPC','单次点击成本：广告总费用 ÷ 点击次数。'],
+  ['留存','用户在指定周期后仍活跃或继续使用的比例；注意周期口径。'],
+  ['漏斗','将用户行动拆成步骤，观察每一步的流失与转化。'],
+  ['复盘','用目标与实际结果对比，整理原因、经验和下一步调整。'],
+];
+
+const state = { jd:'', resume:'', sampleId:'', result:null, currentTab:'decode', savedQuestions:[], checkedTodos:[], saveLocally:true };
+
+function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function clip(s,max=160){const t=String(s).replace(/\s+/g,' ').trim();return t.length>max?t.slice(0,max-1)+'…':t;}
+function plainText(s){return String(s||'').replace(/[\t\r]+/g,' ').replace(/\s+/g,' ').trim();}
+function keyOf(text){let h=2166136261;for(let i=0;i<text.length;i++)h=Math.imul(h^text.charCodeAt(i),16777619);return (h>>>0).toString(36);}
+function showToast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>el.classList.remove('show'),2600);}
+function showError(msg){const el=$('#inlineError');el.textContent=msg;el.classList.add('visible');}
+function clearError(){$('#inlineError').classList.remove('visible');}
+function termMatch(text,term){
+  const input=text.normalize('NFKC').toLowerCase();const needle=term.normalize('NFKC').toLowerCase();
+  if (/^[a-z0-9/ +.-]+$/i.test(needle) && needle.length<5){
+    const pattern=needle.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    try{return new RegExp('(^|[^a-z])'+pattern+'(?=$|[^a-z])','i').test(input);}catch{return input.includes(needle);}
+  }
+  return input.includes(needle);
+}
+function gatherMatches(text,terms){return [...new Set(terms.filter(t=>termMatch(text,t)))];}
+function parseLines(input){
+  let section='other',rows=[];
+  const parts=input.replace(/\r/g,'').split('\n');
+  for(let raw of parts){
+    if(!raw.trim())continue;
+    const t=raw.trim();
+    if(/^\s*(岗位职责|工作职责|岗位描述|工作内容|主要工作|职责描述|你将负责|职责范围)\s*[：:]?\s*$/i.test(t)){section='duty';continue;}
+    if(/^\s*(任职资格|岗位要求|任职要求|资格要求|能力要求|招聘要求|我们希望|你需要具备)\s*[：:]?\s*$/i.test(t)){section='requirement';continue;}
+    if(/^\s*(优先条件|加分项|优先考虑)\s*[：:]?\s*$/i.test(t)){section='bonus';continue;}
+    if(/^\s*(福利待遇|薪资福利|公司介绍|工作地点)\s*[：:]?\s*$/i.test(t)){section='other';continue;}
+    let type=section;
+    if(/^(岗位职责|工作职责|主要工作)[：:]/.test(t)){type='duty'; section='duty';}
+    if(/^(任职要求|岗位要求|任职资格)[：:]/.test(t)){type='requirement';section='requirement';}
+    if(/^(加分项|优先条件)[：:]/.test(t)){type='bonus';section='bonus';}
+    const cleaned=t.replace(/^(?:[\d一二三四五六七八九十]+[、.．)）]|[-*•▪●])\s*/,'').replace(/^(岗位职责|工作职责|任职要求|岗位要求|主要工作|任职资格|加分项)\s*[：:]\s*/,'').trim();
+    // Split very long paragraphs into manageable, evidence-friendly sentences.
+    const segments=cleaned.length>170?cleaned.split(/(?<=[。；;])/).filter(Boolean):[cleaned];
+    segments.forEach((piece)=>{if(piece.trim().length>=4) rows.push({text:piece.trim(),section:type});});
+  }
+  return rows.filter(r=>!/^岗位名称[：:]/.test(r.text));
+}
+function detectGroups(rows){
+  return GROUPS.map(group=>{
+    const refs=rows.map(row=>({...row,hits:gatherMatches(row.text,group.keywords)})).filter(row=>row.hits.length);
+    const unique=[...new Set(refs.flatMap(row=>row.hits))];
+    const reqRefs=refs.filter(row=>row.section==='requirement'||row.section==='bonus');
+    const dutyRefs=refs.filter(row=>row.section==='duty');
+    const score=unique.length*1.6 + Math.min(refs.length,6)*.6 + Math.min(reqRefs.length,4)*.8 + Math.min(dutyRefs.length,4)*.3;
+    const best=refs.slice().sort((a,b)=>(b.hits.length+(b.section==='requirement'?1:0))-(a.hits.length+(a.section==='requirement'?1:0)))[0];
+    return {...group,refs,unique,reqRefs,dutyRefs,score,evidence:best?.text||''};
+  }).filter(g=>g.score>0).sort((a,b)=>b.score-a.score);
+}
+function jobTitle(text){
+  const first=text.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,12);
+  const match=first.map(l=>l.match(/^(?:岗位名称|职位名称|招聘岗位|应聘岗位)[：:]\s*(.+)$/)).find(Boolean);
+  if(match)return clip(match[1].replace(/（模拟岗位）/g,''),34);
+  const line=first[0]||'';
+  if(line.length<31&&!/^(岗位职责|任职要求|工作职责|招聘要求)/.test(line))return clip(line,30);
+  return '这份 JD 的岗位画像';
+}
+function oneLineReport(groups){
+  const ids=groups.slice(0,4).map(g=>g.id);
+  if(ids.includes('ai')&&ids.includes('marketing'))return '这不是单纯“会用 AI 生成文案”的岗位，更看重能把客户营销问题拆成 AI 可执行方案，并组织测试、交付与效果复盘。';
+  if(ids.includes('project'))return '核心是把目标拆解为任务与节点，协调不同角色，跟踪风险并推动交付，而不只是整理会议纪要。';
+  if(ids.includes('product')&&ids.includes('data'))return '重点是通过用户与数据发现问题，再推动产品或运营动作落地，并验证是否真的改善指标。';
+  if(ids.includes('marketing'))return '重点是理解受众与品牌目标，把洞察转成传播方案和内容，再观察真实效果。';
+  if(ids.includes('ai'))return '重点是把业务问题转换成可执行的 AI 工具或工作流，并对输出质量负责。';
+  if(ids.includes('data'))return '重点是理解指标、发现数据里的变化并提出实际可执行的改进建议。';
+  if(groups[0])return '这份 JD 主要关注「'+groups.slice(0,3).map(g=>g.label).join('、')+'」，建议优先准备有明确过程和结果的真实案例。';
+  return '当前内容中可识别的岗位关键词较少。建议粘贴更完整的工作职责和任职要求，再结合原文人工判断。';
+}
+function plainTranslation(text, groups){
+  // Prefer the action expressed in THIS sentence instead of repeating a generic
+  // competency summary for every responsibility in the same JD.
+  const patterns=[
+    [/台账|需求变更|问题闭环|状态追踪|问题归档/, '建立可追踪的记录，确保需求变更和待处理问题都有负责人和解决状态。'],
+    [/项目启动|需求澄清|工作包|项目排期|里程碑/, '先把目标、任务、关键节点和交付物对齐，让参与者知道何时做完什么。'],
+    [/供应商|资源协调|跨部门例会|跨团队例会|交付风险/, '协调不同团队或供应商，识别阻塞与风险，推动问题在节点前解决。'],
+    [/阶段验收|阶段评审|测试验证|测试与验收|测试、验收|测试和验收|SOP/, '检查交付成果是否符合约定，记录差异并沉淀可以复用的标准流程。'],
+    [/需求沟通|客户目标|客户需求|Brief|实施计划/, '先问清客户目标、边界和限制，再整理成可讲解的方案与执行计划。'],
+    [/AIGC|Prompt|Agent|Workflow|生成式 AI|生成式AI|工作流搭建|自动化内容/, '把内容制作或重复任务拆成流程，选择 AI 工具并设置人工检查点。'],
+    [/消费者洞察|竞品研究|竞品分析|社交媒体.*分析|用户调研|用户反馈/, '从消费者反馈、竞品或调研里提炼问题与洞察，再给出具体建议。'],
+    [/A\/B|AB测试|A\/B 测试|实验/, '设计可对比的方案或版本，先约定评价指标，再通过测试判断变化。'],
+    [/漏斗|数据看板|转化率|留存率|点击率|CTR|CVR|ROI|GMV|广告投放/, '跟踪关键指标，找出变化发生在哪一步，再提出可验证的优化动作。'],
+    [/跨部门|跨团队|协同|协调|研发|设计/, '与相关角色明确分工和交付标准，推动方案从讨论进入执行。'],
+    [/版本验收|新功能上线|新功能|产品上线|需求文档|PRD/, '围绕用户问题把功能改动推进到上线，确认是否达到验收要求。'],
+    [/营销方案|营销策略|传播策略|传播方案|品牌推广|推广方案/, '围绕目标受众和业务目的，提出传播方向、渠道与可执行内容。'],
+    [/营销素材|内容生产|内容运营|内容策划|脚本|短视频|素材/, '将传播方向转成可制作的内容素材，并根据反馈不断优化。'],
+    [/项目报告|复盘|分析报告/, '整理执行结果、问题和改进建议，形成团队可复用的项目经验。'],
+  ];
+  for(const [pattern,plain] of patterns){if(pattern.test(text))return {id:'specific',txt:plain};}
+  const scores=groups.map(g=>({g,n:gatherMatches(text,g.keywords).length})).sort((a,b)=>b.n-a.n);
+  if(scores[0]?.n>0)return {id:scores[0].g.id,txt:scores[0].g.tasks};
+  return {id:'general',txt:'把这项职责进一步问清楚：实际交付物是什么、由谁协作、怎样确认完成。'};
+}
+function getTasks(rows,groups){
+  const duties=rows.filter(r=>r.section==='duty');
+  const input=duties.length?duties:rows.filter(r=>r.section!=='bonus'&&r.text.length>14);
+  const unique=[], seen=new Set();
+  for(const row of input){
+    if(row.text.length<12||/^(公司|工作地址|工资)/.test(row.text))continue;
+    const {id,txt}=plainTranslation(row.text,groups);
+    const key=id==='general'?row.text.slice(0,20):id+'_'+row.text.slice(0,18);
+    if(seen.has(key))continue;
+    seen.add(key);unique.push({plain:txt,original:row.text});
+    if(unique.length>=5)break;
+  }
+  return unique;
+}
+function getVocab(jd){
+  const found=[];const seen=new Set();
+  for(const [term,desc] of GLOSSARY){
+    if(!termMatch(jd,term))continue;
+    const key=term.toUpperCase().replace(/\s/g,'');
+    if(seen.has(key))continue;
+    found.push({term,desc});seen.add(key);
+  }
+  return found.slice(0,12);
+}
+function getQuestions(groups){
+  const questions=groups.slice(0,6).map(g=>({id:g.id,label:g.label,question:g.question,tip:g.answer,source:g.evidence}));
+  if(questions.length){questions.push({id:'motivation',label:'通用追问',question:'为什么选择这个岗位？你目前最匹配的优势和最需要补足的能力是什么？',tip:'用岗位核心任务连接自己的真实经验；短板可以说清补足计划，不要把未做过的经历包装成已做。',source:''});}
+  return questions;
+}
+function getTodo(groups){
+  const arr=groups.slice(0,4).map(g=>({id:'group-'+g.id,text:g.checklist}));
+  arr.push({id:'verify',text:'核对 JD 中至少 3 条原句，确认我没有误解职责或岗位边界。'});
+  arr.push({id:'star',text:'为每个面试案例写下背景、我的动作、可验证结果和反思。'});
+  return arr;
+}
+function getMatch(groups,resume){
+  const lines=parseLines(resume).map(x=>x.text).filter(x=>x.length>5);
+  return groups.slice(0,6).map(g=>{
+    const refs=lines.map(line=>({line,hits:gatherMatches(line,g.keywords)})).filter(x=>x.hits.length);
+    return {id:g.id,label:g.label,refs:refs.sort((a,b)=>b.hits.length-a.hits.length).slice(0,2),focus:g.interviewFocus};
+  });
+}
+function analyzeText(jd,resume){
+  const rows=parseLines(jd);const groups=detectGroups(rows);
+  return {title:jobTitle(jd),groups,rows,tasks:getTasks(rows,groups),vocab:getVocab(jd),questions:getQuestions(groups),todo:getTodo(groups),match:getMatch(groups,resume),summary:oneLineReport(groups),jd,resume};
+}
+function evidenceHtml(text){return '<div class="evidence"><span class="source-caption">对应 JD 原句</span>'+escapeHtml(clip(text,145))+'</div>';}
+function renderResult(){
+  const r=state.result;if(!r)return;
+  $('#emptyState').style.display='none';$('#report').classList.add('active');
+  $('#jobTitle').textContent=r.title;
+  const suffix=state.sampleId?' · 模拟示例数据':' · 用户粘贴内容';
+  $('#reportSub').textContent='规则解析'+suffix+'。仅按原文识别关键词，不代表企业官方解读。';
+  $('#oneLine').textContent=r.summary;
+  $('#reportStats').innerHTML=`<div class="stat"><strong>${r.groups.length}</strong> 个能力主题</div><div class="stat"><strong>${r.tasks.length}</strong> 条职责拆解</div><div class="stat"><strong>${r.questions.length}</strong> 道准备题</div>`;
+  $('#skillsGrid').innerHTML=r.groups.length?r.groups.slice(0,6).map(g=>`<article class="skill-card"><div class="skill-top"><span class="skill-icon">${escapeHtml(g.icon)}</span><strong>${escapeHtml(g.label)}</strong><span class="skill-count">${g.unique.length} 个词条</span></div><p>${escapeHtml(g.what)}</p>${evidenceHtml(g.evidence)}</article>`).join(''):'<div class="none-found">未识别到明确的能力关键词。请粘贴更完整的岗位要求，或用原文人工判断。</div>';
+  $('#tasks').innerHTML=r.tasks.length?r.tasks.map((t,i)=>`<article class="task-item"><span class="task-no">${String(i+1).padStart(2,'0')}</span><div><strong>${escapeHtml(t.plain)}</strong><div class="task-original">JD 原句：${escapeHtml(clip(t.original,210))}</div></div></article>`).join(''):'<div class="none-found">未找到可拆解的岗位职责。建议补充工作职责部分。</div>';
+  $('#vocabGrid').innerHTML=r.vocab.length?r.vocab.map(t=>`<article class="vocab"><strong>${escapeHtml(t.term)}</strong><p>${escapeHtml(t.desc)}</p></article>`).join(''):'<div class="none-found">这份 JD 没有出现词典覆盖的常见缩写，先看具体职责即可。</div>';
+  $('#questions').innerHTML=r.questions.length?r.questions.map((q,i)=>`<article class="question"><div class="question-top"><span class="q-number">${i+1}</span><div class="question-txt"><strong>${escapeHtml(q.question)}</strong><small>${escapeHtml(q.label)}${q.source?' · 来源：'+escapeHtml(clip(q.source,45)):' · 通用问题'}</small></div><button type="button" class="mini-btn ${state.savedQuestions.includes(q.id)?'selected':''}" data-save-question="${escapeHtml(q.id)}" aria-pressed="${state.savedQuestions.includes(q.id)?'true':'false'}">${state.savedQuestions.includes(q.id)?'✓ 已收藏':'+ 收藏'}</button></div><div class="question-detail"><b>作答线索</b><span>${escapeHtml(q.tip)}</span></div></article>`).join(''):'<div class="none-found">需要更完整的 JD 才能提供有来源的针对性问题。</div>';
+  $('#todoList').innerHTML=r.todo.map(t=>`<label class="todo ${state.checkedTodos.includes(t.id)?'checked':''}"><input type="checkbox" data-todo="${escapeHtml(t.id)}" ${state.checkedTodos.includes(t.id)?'checked':''}><span>${escapeHtml(t.text)}</span></label>`).join('');
+  $('#todoFooter').textContent=`已完成 ${r.todo.filter(t=>state.checkedTodos.includes(t.id)).length} / ${r.todo.length} 项；清单仅保存在本地。`;
+  renderMatch();switchTab(state.currentTab);persist();
+}
+function renderMatch(){
+  const r=state.result;if(!r)return;
+  if(!r.resume.trim()){
+    $('#matchArea').innerHTML='<div class="match-empty"><h3>还没添加自己的经历</h3><p>在左边展开「添加我的经历」，每行写一段真实做过的事。<br>系统会按关键词找到可以讲的案例，不会编造结果。</p><button class="outline-btn" id="goResume" type="button" style="margin-left:auto;margin-right:auto">去填写经历 ↗</button></div>';
+    return;
+  }
+  const hasMatch=r.match.some(m=>m.refs.length);
+  $('#matchArea').innerHTML=`<div class="match-summary"><strong>${hasMatch?'找到了一些可准备的经历线索':'暂未找到明显关键词重合'}</strong><p>这只是文本关键词对应关系，不是自动简历匹配度，也不代表一定符合任职资格。请确认这些经历确实由你完成，补充职责边界和可验证结果。</p></div>`+
+    r.match.map(m=>`<article class="match-card"><h4>${escapeHtml(m.label)} <span style="color:${m.refs.length?'#237c61':'#9da6b5'};font-size:11px;font-weight:600;margin-left:7px">${m.refs.length?'找到线索':'暂缺明显线索'}</span></h4><p>可准备的追问方向：${escapeHtml(m.focus)}</p>${m.refs.length?m.refs.map(x=>`<div class="match-example">「${escapeHtml(clip(x.line,180))}」</div>`).join(''):'<div class="match-example" style="color:#8e99aa">可能是表达方式不同，也可能暂时缺少这一类案例。可补充真实动作，不要杜撰。</div>'}</article>`).join('');
+}
+function switchTab(tab){
+  const name=['decode','interview','match'].includes(tab)?tab:'decode';state.currentTab=name;
+  $$('.report-tab').forEach(btn=>{const sel=btn.dataset.tab===name;btn.setAttribute('aria-selected',sel?'true':'false');btn.tabIndex=sel?0:-1;});
+  $('#viewDecode').classList.toggle('active',name==='decode');$('#viewInterview').classList.toggle('active',name==='interview');$('#viewMatch').classList.toggle('active',name==='match');
+}
+function renderEmpty(){state.result=null;$('#report').classList.remove('active');$('#emptyState').style.display='flex';}
+function persist(){
+  try{
+    if(!state.saveLocally){localStorage.removeItem(STORAGE_KEY);return;}
+    localStorage.setItem(STORAGE_KEY,JSON.stringify({jd:state.jd,resume:state.resume,sampleId:state.sampleId,savedQuestions:state.savedQuestions,checkedTodos:state.checkedTodos,saveLocally:true,hasReport:!!state.result}));
+  }catch(e){showToast('当前浏览器不允许本机保存；仍可导出备忘录。');}
+}
+function loadSaved(){
+  try{
+    const data=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(!data)return;
+    state.jd=String(data.jd||'').slice(0,100000);state.resume=String(data.resume||'').slice(0,50000);
+    state.sampleId=typeof data.sampleId==='string'?data.sampleId:'';
+    state.savedQuestions=Array.isArray(data.savedQuestions)?data.savedQuestions.filter(x=>typeof x==='string'):[];
+    state.checkedTodos=Array.isArray(data.checkedTodos)?data.checkedTodos.filter(x=>typeof x==='string'):[];
+    state.saveLocally=!!data.saveLocally;$('#saveLocally').checked=state.saveLocally;
+    $('#jdInput').value=state.jd;$('#resumeInput').value=state.resume;
+    if(state.resume.trim()){setResumeVisible(true);}
+    if(data.hasReport&&state.jd.trim().length>=25){state.result=analyzeText(state.jd,state.resume);renderResult();}
+  }catch(err){try{localStorage.removeItem(STORAGE_KEY);}catch(_){ /* storage may be disabled */ }}
+  refreshCounts();
+}
+function refreshCounts(){$('#charCount').textContent=$('#jdInput').value.trim().length+' 字';$('#resumeCount').textContent=$('#resumeInput').value.trim().length+' 字';}
+function setResumeVisible(open){$('#resumeWrap').classList.toggle('open',open);$('#resumeToggle').setAttribute('aria-expanded',open?'true':'false');}
+function runAnalysis(){
+  clearError();const jd=$('#jdInput').value.trim();const resume=$('#resumeInput').value.trim();
+  if(jd.length<25){showError('请至少输入 25 个字的真实岗位职责 / 任职要求，或先点击一份模拟示例。');$('#jdInput').focus();return;}
+  if(jd.length>100000){showError('JD 超过 10 万字。建议仅粘贴招聘信息的岗位职责和任职要求。');return;}
+  state.jd=jd;state.resume=resume;const previousKey=state.result?keyOf(state.result.jd):'';
+  if(previousKey!==keyOf(jd)){state.savedQuestions=[];state.checkedTodos=[];}
+  state.result=analyzeText(jd,resume);state.currentTab='decode';renderResult();
+  if(window.innerWidth<=840){$('#report').scrollIntoView({behavior:'smooth',block:'start'});}
+  showToast('已完成本地解读，可切换面试准备和我的经历。');
+}
+function loadSample(id){
+  if(!SAMPLES[id])return;state.sampleId=id;$('#jdInput').value=SAMPLES[id].jd;refreshCounts();$$('.sample-btn').forEach(el=>el.classList.toggle('active',el.dataset.sample===id));
+  runAnalysis();
+}
+function getMarkdown(){
+  const r=state.result;if(!r)return '';
+  const lines=[`# JD 翻译官｜${r.title}`,'',`> 规则分析版；${state.sampleId?'使用模拟 JD。':'根据用户输入的 JD。'} 不是大模型分析或企业官方结论。`,'',`## 一句话解读`,'',r.summary,'',`## 核心能力线索`,''];
+  r.groups.forEach((g,i)=>{lines.push(`${i+1}. **${g.label}**：${g.what}`,`   - 原文依据：${g.evidence||'未检索到'}`);});
+  lines.push('','## 工作职责翻译','');
+  r.tasks.forEach((t,i)=>lines.push(`${i+1}. ${t.plain}\n   - JD 原文：${t.original}`));
+  lines.push('','## 术语说明','');
+  r.vocab.forEach(t=>lines.push(`- **${t.term}**：${t.desc}`));
+  lines.push('','## 面试问题与作答线索','');
+  r.questions.forEach((q,i)=>lines.push(`${i+1}. **${q.question}**${state.savedQuestions.includes(q.id)?'（已收藏）':''}\n   - ${q.tip}`));
+  lines.push('','## 准备清单','');r.todo.forEach(t=>lines.push(`- [${state.checkedTodos.includes(t.id)?'x':' '}] ${t.text}`));
+  if(r.resume.trim()){
+    lines.push('','## 我的经历对应线索','');
+    r.match.forEach(m=>{lines.push(`### ${m.label}`);lines.push(m.refs.length?m.refs.map(x=>`- ${x.line}`).join('\n'):'- 暂无明显关键词线索');});
+  }
+  lines.push('','---','工具说明：完全本地关键词规则分析，不联网、不访问模型、不产生虚构简历事实。');
+  return lines.join('\n');
+}
+async function copyText(text){
+  try{await navigator.clipboard.writeText(text);showToast('备忘录已复制到剪贴板。');}
+  catch(err){
+    try{const temp=document.createElement('textarea');temp.value=text;temp.style.position='fixed';temp.style.opacity='0';document.body.appendChild(temp);temp.select();const success=document.execCommand('copy');temp.remove();showToast(success?'备忘录已复制。':'复制被浏览器拦截，请使用下载功能。');}
+    catch(e){showToast('复制不可用，请选择下载 Markdown。');}
+  }
+}
+function downloadMarkdown(){
+  const md=getMarkdown();if(!md){showToast('请先完成一份 JD 解读。');return;}
+  const blob=new Blob(['\ufeff'+md],{type:'text/markdown;charset=utf-8'});const a=document.createElement('a');const url=URL.createObjectURL(blob);a.href=url;a.download='JD翻译官_面试备忘录.md';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);showToast('已导出 Markdown 备忘录。');
+}
+async function importFile(file,kind){
+  if(!file)return;
+  if(!/\.(md|txt)$/i.test(file.name)){showError('仅支持纯文本 .txt 或 .md，请勿上传 PDF、Word 或含敏感信息的文件。');return;}
+  if(file.size>200*1024){showError('文件最大支持 200 KB；请选择仅包含岗位正文或经历要点的文本文件。');return;}
+  const text=await file.text();const target=kind==='jd'?'#jdInput':'#resumeInput';$(target).value=text;
+  if(kind==='jd'){state.sampleId='';$$('.sample-btn').forEach(x=>x.classList.remove('active'));}else{setResumeVisible(true);}
+  refreshCounts();clearError();showToast(kind==='jd'?'已读取 JD 文本，请点击开始拆解。':'已读取经历文本，请重新运行解读。');
+}
+function setup(){
+  loadSaved();
+  $('#jdInput').addEventListener('input',()=>{state.sampleId='';$$('.sample-btn').forEach(x=>x.classList.remove('active'));refreshCounts();if(state.saveLocally){state.jd=$('#jdInput').value;persist();}});
+  $('#resumeInput').addEventListener('input',()=>{refreshCounts();if(state.saveLocally){state.resume=$('#resumeInput').value;persist();}});
+  $('#analyzeBtn').addEventListener('click',runAnalysis);
+  $('#resumeToggle').addEventListener('click',()=>setResumeVisible($('#resumeToggle').getAttribute('aria-expanded')!=='true'));
+  $('#uploadJD').addEventListener('click',()=>$('#jdFile').click());$('#uploadResume').addEventListener('click',()=>$('#resumeFile').click());
+  $('#jdFile').addEventListener('change',async(e)=>{await importFile(e.target.files[0],'jd');e.target.value='';});
+  $('#resumeFile').addEventListener('change',async(e)=>{await importFile(e.target.files[0],'resume');e.target.value='';});
+  $$('.sample-btn').forEach(btn=>btn.addEventListener('click',()=>loadSample(btn.dataset.sample)));
+  $('#saveLocally').addEventListener('change',(e)=>{state.saveLocally=e.target.checked;persist();showToast(state.saveLocally?'已开启本机保存。':'已关闭并移除本机缓存。');});
+  $('#copyBtn').addEventListener('click',()=>copyText(getMarkdown()));
+  $('#downloadBtn').addEventListener('click',downloadMarkdown);
+  $$('.report-tab').forEach(btn=>btn.addEventListener('click',()=>switchTab(btn.dataset.tab)));
+  $('#questions').addEventListener('click',(e)=>{
+    const btn=e.target.closest('[data-save-question]');if(!btn)return;
+    const id=btn.dataset.saveQuestion;
+    state.savedQuestions=state.savedQuestions.includes(id)?state.savedQuestions.filter(x=>x!==id):[...state.savedQuestions,id];
+    renderResult();
+  });
+  $('#todoList').addEventListener('change',(e)=>{
+    const id=e.target.dataset.todo;if(!id)return;
+    state.checkedTodos=e.target.checked?[...new Set([...state.checkedTodos,id])]:state.checkedTodos.filter(x=>x!==id);
+    renderResult();
+  });
+  $('#matchArea').addEventListener('click',(e)=>{if(!e.target.closest('#goResume'))return;setResumeVisible(true);if(window.innerWidth<=840){$('.left-panel').scrollIntoView({behavior:'smooth'});}$('#resumeInput').focus();});
+  $('#howBtn').addEventListener('click',()=>$('#helpDialog').showModal());$('#closeHelp').addEventListener('click',()=>$('#helpDialog').close());
+  $('#clearBtn').addEventListener('click',()=>$('#clearDialog').showModal());$('#cancelClear').addEventListener('click',()=>$('#clearDialog').close());
+  $('#confirmClear').addEventListener('click',()=>{
+    try{localStorage.removeItem(STORAGE_KEY);}catch(_){}state.jd='';state.resume='';state.sampleId='';state.savedQuestions=[];state.checkedTodos=[];state.currentTab='decode';
+    $('#jdInput').value='';$('#resumeInput').value='';setResumeVisible(false);renderEmpty();refreshCounts();clearError();$$('.sample-btn').forEach(x=>x.classList.remove('active'));
+    $('#clearDialog').close();showToast('已清除本机内容。');
+  });
+  // Support closing dialogs with a click on the backdrop.
+  [$('#helpDialog'),$('#clearDialog')].forEach(d=>d.addEventListener('click',(e)=>{if(e.target===d)d.close();}));
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup();
+
+</script>
+</body>
+</html>
